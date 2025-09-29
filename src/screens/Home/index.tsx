@@ -2,22 +2,24 @@ import React, { useState, useRef, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import MapView, { Marker, Region } from 'react-native-maps';
 import { PlaceSearch, PlaceBottomSheet } from '../../components';
-import { saveHistory, loadHistory } from '../../utils/storage';
 import { PlaceResult } from '../../types/google';
 import { Colors } from '../../constants/colors';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { useDispatch } from 'react-redux';
+import { saveHistory } from '../../redux/slices/googleSlice';
+import { useAppSelector } from '../../redux/hook/useAppSelector';
 
 const HomeScreen = () => {
   const [selectedPlace, setSelectedPlace] = useState<PlaceResult | null>(null);
   const [history, setHistory] = useState<PlaceResult[]>([]);
   const mapRef = useRef<MapView | null>(null);
-
+  const dispatch = useDispatch();
+  const historyState = useAppSelector(state => state.google.history);
   useEffect(() => {
     (async () => {
-      const h = await loadHistory();
-      setHistory(h);
+      setHistory(historyState);
     })();
-  }, []);
+  }, [historyState]);
 
   const onPlaceSelected = async (place: PlaceResult) => {
     setSelectedPlace(place);
@@ -27,7 +29,7 @@ const HomeScreen = () => {
       50,
     );
     setHistory(newHistory);
-    await saveHistory(newHistory);
+    dispatch(saveHistory(newHistory));
 
     if (mapRef.current && place.location) {
       const region: Region = {

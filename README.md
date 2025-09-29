@@ -58,3 +58,23 @@ You've successfully run and modified your React Native App. :partying_face:
   - `@react-navigation/native`
   - `@react-navigation/bottom-tabs`
   - `react-native-screens`
+
+
+
+## 📂 Project Structure
+
+src/
+├── components/         # Reusable UI components
+│   ├── HistoryList/
+│   ├── PlaceSearch/
+│   └── ...
+├── config/             # contain google api key.
+├── constants/          # Theme, colors, typography, etc.
+├── navigations/        # project navigation, structure.
+├── redux/              # state management, actions, reducer.
+├── screens/            # contain screens.
+├── services/           # api call, endpoint.
+├── types/              # object types
+├── utils/              # Utility functions
+├── package.json        # Project dependencies and scripts
+└── ...
