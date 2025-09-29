@@ -1,3 +1,4 @@
 import { PlaceSearch } from './PlaceSearch';
 import { HistoryList } from './HistoryList';
-export { PlaceSearch, HistoryList };
+import { PlaceBottomSheet } from './PlaceBottomSheet';
+export { PlaceSearch, HistoryList, PlaceBottomSheet };

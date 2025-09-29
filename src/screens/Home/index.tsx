@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import MapView, { Marker, Region } from 'react-native-maps';
-import { PlaceSearch, HistoryList } from '../../components';
+import { PlaceSearch, PlaceBottomSheet } from '../../components';
 import { saveHistory, loadHistory } from '../../utils/storage';
 import { PlaceResult } from '../../types/google';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Colors } from '../../constants/colors';
 
 const HomeScreen = () => {
   const [selectedPlace, setSelectedPlace] = useState<PlaceResult | null>(null);
@@ -39,12 +39,8 @@ const HomeScreen = () => {
     }
   };
 
-  const onHistorySelect = (place: PlaceResult) => {
-    onPlaceSelected(place);
-  };
-
   return (
-    <SafeAreaProvider style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.searchContainer}>
         <PlaceSearch onPlaceSelected={onPlaceSelected} />
       </View>
@@ -71,11 +67,12 @@ const HomeScreen = () => {
         )}
       </MapView>
 
-      <View style={styles.historyContainer}>
-        <Text style={styles.historyTitle}>Search History</Text>
-        <HistoryList history={history} onSelect={onHistorySelect} />
-      </View>
-    </SafeAreaProvider>
+      <PlaceBottomSheet
+        history={history}
+        selectedPlace={selectedPlace}
+        onPlaceSelected={onPlaceSelected}
+      />
+    </View>
   );
 };
 
@@ -96,9 +93,14 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: 'rgba(255,255,255,0.95)',
+    backgroundColor: Colors.white,
     maxHeight: '35%',
     padding: 10,
   },
   historyTitle: { fontWeight: '600', marginBottom: 6 },
+  bottomSheetContainer: {
+    flex: 1,
+    padding: 36,
+    alignItems: 'center',
+  },
 });

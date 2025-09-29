@@ -1,10 +1,6 @@
 import React from 'react';
-import {MainNavigation} from './main.navigation';
-
-export enum SCREEN_NAME {
-  HomeScreen = 'HomeScreen',
-}
+import { MainNavigation } from './main.navigation';
 
 export const AppNavigation = () => {
-  return  <MainNavigation />;
+  return <MainNavigation />;
 };

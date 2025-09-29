@@ -9,11 +9,13 @@ function App() {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <NavigationContainer>
-          <GestureHandlerRootView>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <NavigationContainer>
+            {/* <GestureHandlerRootView> */}
             <AppNavigation />
-          </GestureHandlerRootView>
-        </NavigationContainer>
+            {/* </GestureHandlerRootView> */}
+          </NavigationContainer>
+        </GestureHandlerRootView>
       </PersistGate>
     </Provider>
   );

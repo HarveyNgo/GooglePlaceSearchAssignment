@@ -45,7 +45,7 @@ export interface PlaceResult {
     languageCode: string;
   };
   shortFormattedAddress: string;
-  photos: any[];
+  photos: PlacePhoto[];
   pureServiceAreaBusiness: false;
   googleMapsLinks: {
     directionsUri: string;
@@ -55,6 +55,14 @@ export interface PlaceResult {
   timeZone: {
     id: string;
   };
+}
+
+export interface PlacePhoto {
+  flagContentUri: string;
+  googleMapsUri: string;
+  heightPx: number;
+  name: string;
+  widthPx: number;
 }
 
 export interface SuggestionItem {

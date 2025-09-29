@@ -7,6 +7,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import { PlaceResult } from '../../types/google';
+import { Colors } from '../../constants/colors';
 
 interface Props {
   history: PlaceResult[];
@@ -35,9 +36,9 @@ const HistoryList: React.FC<Props> = ({ history = [], onSelect }) => {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  row: { paddingVertical: 8, borderBottomWidth: 1, borderColor: '#f0f0f0' },
+  row: { paddingVertical: 8, borderBottomWidth: 1, borderColor: Colors.border },
   name: { fontWeight: '600' },
-  address: { fontSize: 12, color: '#555' },
+  address: { fontSize: 12, color: Colors.gray },
 });
 
 export { HistoryList };

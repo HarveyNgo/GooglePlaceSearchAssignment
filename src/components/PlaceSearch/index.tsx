@@ -13,6 +13,7 @@ import {
   getGooglePlaceDetail,
   getGooglePlaces,
 } from '../../redux/actions/googleActions';
+import { Colors } from '../../constants/colors';
 
 interface Props {
   onPlaceSelected: (place: PlaceResult) => void;
@@ -22,60 +23,10 @@ const PlaceSearch: React.FC<Props> = ({ onPlaceSelected }) => {
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState<SuggestionItem[]>([]);
   const debounceTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const dispatch = useAppDispatch();
 
-  //   const fetchSuggestions = async (input: string) => {
-  //     if (!input) {
-  //       setSuggestions([]);
-  //       return;
-  //     }
-
-  //     try {
-  //       const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(
-  //         input,
-  //       )}&key=${GOOGLE_MAPS_API_KEY}&language=en&components=country:vn`;
-  //       const res = await fetch(url);
-  //       console.log('hung res:', res);
-  //       const json = await res.json();
-  //       console.log('hung jso:', json);
-  //       if (json.status === 'OK') {
-  //         setSuggestions(json.predictions || []);
-  //       } else {
-  //         setSuggestions([]);
-  //       }
-  //     } catch (e) {
-  //       console.warn('Autocomplete fetch error', e);
-  //       setSuggestions([]);
-  //     }
-  //   };
-
-  //   const debouncedFetch = debounce(
-  //     (input: string) => fetchSuggestions(input),
-  //     300,
-  //   );
-
-  //   const onChangeText = (text: string) => {
-  //     setQuery(text);
-  //     debouncedFetch(text);
-  //   };
-
   const fetchPlaceDetails = async (place_id: string) => {
-    // try {
-    //   const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${place_id}&key=${GOOGLE_MAPS_API_KEY}&fields=name,formatted_address,geometry,place_id`;
-    //   const res = await fetch(url);
-    //   const json = await res.json();
-    //   if (json.status === 'OK') {
-    //     const place: PlaceResult = json.result;
-    //     onPlaceSelected(place);
-    //     setQuery('');
-    //     setSuggestions([]);
-    //   } else {
-    //     console.warn('Place details error', json);
-    //   }
-    // } catch (e) {
-    //   console.warn('Place details fetch error', e);
-    // }
-
     dispatch(
       getGooglePlaceDetail({
         placeId: place_id,
@@ -85,38 +36,13 @@ const PlaceSearch: React.FC<Props> = ({ onPlaceSelected }) => {
       .then(data => {
         console.log('hung getGooglePlaceDetail data:', data);
         onPlaceSelected(data);
+        setShowSuggestions(false);
       })
       .catch(() => {});
   };
 
   const fetchPlaces = useCallback(
     async (text: string) => {
-      // if (cancelToken.current) cancelToken.current.cancel('New request started');
-      // cancelToken.current = axios.CancelToken.source();
-      // console.log('hung suggestions:', suggestions);
-      // try {
-      //   const response = await axios.post(
-      //     'https://places.googleapis.com/v1/places:autocomplete',
-      //     {
-      //       input: text,
-      //       // cancelToken: cancelToken.current.token,
-      //       includedPrimaryTypes: ['locality'], // optional
-      //       languageCode: 'en',
-      //     },
-      //     {
-      //       headers: {
-      //         'Content-Type': 'application/json',
-      //         'X-Goog-Api-Key': GOOGLE_MAPS_API_KEY,
-      //       },
-      //     },
-      //   );
-      //   console.log('hung res:', response);
-      //   setSuggestions(response.data.suggestions || []);
-      // } catch (error) {
-      //   console.log('hung error:', error);
-      //   if (!axios.isCancel(error)) console.error(error);
-      // }
-
       dispatch(
         getGooglePlaces({
           input: text,
@@ -159,7 +85,7 @@ const PlaceSearch: React.FC<Props> = ({ onPlaceSelected }) => {
         {item.placePrediction.structuredFormat.mainText.text}
       </Text>
       <Text style={styles.itemSecondary}>
-        {item.placePrediction.structuredFormat.secondaryText.text}
+        {item.placePrediction.structuredFormat?.secondaryText?.text}
       </Text>
     </TouchableOpacity>
   );
@@ -172,9 +98,10 @@ const PlaceSearch: React.FC<Props> = ({ onPlaceSelected }) => {
         onChangeText={setQuery}
         style={styles.input}
         returnKeyType="search"
+        onFocus={() => setShowSuggestions(true)} // show when focus
       />
 
-      {suggestions.length > 0 && (
+      {showSuggestions && suggestions.length > 0 && (
         <FlatList
           data={suggestions}
           keyExtractor={item => item.placePrediction.placeId}
@@ -189,17 +116,25 @@ const PlaceSearch: React.FC<Props> = ({ onPlaceSelected }) => {
 export { PlaceSearch };
 
 const styles = StyleSheet.create({
-  container: { backgroundColor: '#fff', borderRadius: 8, overflow: 'hidden' },
+  container: {
+    backgroundColor: Colors.white,
+    borderRadius: 8,
+    overflow: 'hidden',
+  },
   input: {
     padding: 12,
     fontSize: 16,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.white,
     borderRadius: 8,
-    borderColor: '#eee',
+    borderColor: Colors.border,
     borderWidth: 1,
   },
-  suggestions: { maxHeight: 240, borderTopWidth: 1, borderColor: '#eee' },
-  item: { padding: 12, borderBottomWidth: 1, borderColor: '#f4f4f4' },
+  suggestions: {
+    maxHeight: 240,
+    borderTopWidth: 1,
+    borderColor: Colors.border,
+  },
+  item: { padding: 12, borderBottomWidth: 1, borderColor: Colors.border },
   itemMain: { fontWeight: '600' },
-  itemSecondary: { fontSize: 12, color: '#666' },
+  itemSecondary: { fontSize: 12, color: Colors.grayStrong },
 });
