@@ -6,15 +6,15 @@ This is a new [**Google Search Place**] project, bootstrapped using [`@react-nat
 
 ## Step 1: install library
 
-# Using npm
+### Using npm
 
 npm install
 
-# OR using Yarn
+### OR using Yarn
 
 yarn
 
-# for ios need to install pod
+### for ios need to install pod
 
 cd ios & pod install & cd ..
 
@@ -63,7 +63,7 @@ You've successfully run and modified your React Native App. :partying_face:
 
 ## 📂 Project Structure
 
-src/
+src
 ├── components/         # Reusable UI components
 │   ├── HistoryList/
 │   ├── PlaceSearch/
