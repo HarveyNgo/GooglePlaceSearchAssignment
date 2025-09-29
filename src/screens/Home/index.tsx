@@ -5,6 +5,7 @@ import { PlaceSearch, PlaceBottomSheet } from '../../components';
 import { saveHistory, loadHistory } from '../../utils/storage';
 import { PlaceResult } from '../../types/google';
 import { Colors } from '../../constants/colors';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const HomeScreen = () => {
   const [selectedPlace, setSelectedPlace] = useState<PlaceResult | null>(null);
@@ -40,7 +41,7 @@ const HomeScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaProvider style={styles.container}>
       <View style={styles.searchContainer}>
         <PlaceSearch onPlaceSelected={onPlaceSelected} />
       </View>
@@ -49,8 +50,8 @@ const HomeScreen = () => {
         ref={mapRef}
         style={styles.map}
         initialRegion={{
-          latitude: 21.0278,
-          longitude: 105.8342,
+          latitude: 3.140853,
+          longitude: 101.693207,
           latitudeDelta: 0.5,
           longitudeDelta: 0.5,
         }}
@@ -72,7 +73,7 @@ const HomeScreen = () => {
         selectedPlace={selectedPlace}
         onPlaceSelected={onPlaceSelected}
       />
-    </View>
+    </SafeAreaProvider>
   );
 };
 

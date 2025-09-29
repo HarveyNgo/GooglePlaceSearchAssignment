@@ -1,6 +1,7 @@
-import {configureStore, combineReducers} from '@reduxjs/toolkit';
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import commonReducer from '../slices/commonSlice';
-import {persistReducer, persistStore} from 'redux-persist';
+import googleReducer from '../slices/googleSlice';
+import { persistReducer, persistStore } from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Persist Config
@@ -13,6 +14,7 @@ const persistConfig = {
 // Combine Reducers
 const rootReducer = combineReducers({
   common: commonReducer,
+  google: googleReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

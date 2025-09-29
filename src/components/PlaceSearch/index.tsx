@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
+  KeyboardAvoidingView,
 } from 'react-native';
 import { PlaceResult, SuggestionItem } from '../../types/google';
 import { useAppDispatch } from '../../redux/hook/useAppDispatch';
@@ -50,7 +51,7 @@ const PlaceSearch: React.FC<Props> = ({ onPlaceSelected }) => {
       )
         .unwrap()
         .then(data => {
-          console.log('hung data:', data);
+          setShowSuggestions(true);
           setSuggestions(data || []);
         })
         .catch(() => {});
@@ -91,7 +92,7 @@ const PlaceSearch: React.FC<Props> = ({ onPlaceSelected }) => {
   );
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container}>
       <TextInput
         placeholder="Search places"
         value={query}
@@ -109,7 +110,7 @@ const PlaceSearch: React.FC<Props> = ({ onPlaceSelected }) => {
           style={styles.suggestions}
         />
       )}
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
