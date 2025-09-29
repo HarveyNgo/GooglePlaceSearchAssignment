@@ -61,19 +61,19 @@ You've successfully run and modified your React Native App. :partying_face:
 ## 📂 Project Structure
 
 ```
-
-├── components/ # Reusable UI components
+src/
+├── components/       # Reusable UI components
 │ ├── HistoryList/
 │ ├── PlaceSearch/
 │ └── ...
-├── config/ # contain google api key.
-├── constants/ # Theme, colors, typography, etc.
-├── navigations/ # project navigation, structure.
-├── redux/ # state management, actions, reducer.
-├── screens/ # contain screens.
-├── services/ # api call, endpoint.
-├── types/ # object types
-├── utils/ # Utility functions
-├── package.json # Project dependencies and scripts
+├── config/           # contain google api key.
+├── constants/        # Theme, colors, typography, etc.
+├── navigations/      # project navigation, structure.
+├── redux/            # state management, actions, reducer.
+├── screens/          # contain screens.
+├── services/         # api call, endpoint.
+├── types/            # object types
+├── utils/            # Utility functions
+├── package.json      # Project dependencies and scripts
 └── ...
 ```
