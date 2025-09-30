@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import {
-  View,
   TextInput,
   FlatList,
   Text,
@@ -27,20 +26,22 @@ const PlaceSearch: React.FC<Props> = ({ onPlaceSelected }) => {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const dispatch = useAppDispatch();
 
-  const fetchPlaceDetails = async (place_id: string) => {
-    dispatch(
-      getGooglePlaceDetail({
-        placeId: place_id,
-      }),
-    )
-      .unwrap()
-      .then(data => {
-        console.log('hung getGooglePlaceDetail data:', data);
-        onPlaceSelected(data);
-        setShowSuggestions(false);
-      })
-      .catch(() => {});
-  };
+  const fetchPlaceDetails = useCallback(
+    async (place_id: string) => {
+      dispatch(
+        getGooglePlaceDetail({
+          placeId: place_id,
+        }),
+      )
+        .unwrap()
+        .then(data => {
+          onPlaceSelected(data);
+          setShowSuggestions(false);
+        })
+        .catch(() => {});
+    },
+    [dispatch, onPlaceSelected],
+  );
 
   const fetchPlaces = useCallback(
     async (text: string) => {
@@ -99,7 +100,7 @@ const PlaceSearch: React.FC<Props> = ({ onPlaceSelected }) => {
         onChangeText={setQuery}
         style={styles.input}
         returnKeyType="search"
-        onFocus={() => setShowSuggestions(true)} // show when focus
+        onFocus={() => setShowSuggestions(true)}
       />
 
       {showSuggestions && suggestions.length > 0 && (

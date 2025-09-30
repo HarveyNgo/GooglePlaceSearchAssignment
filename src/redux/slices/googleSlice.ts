@@ -1,10 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { GoogleState } from '../../types/google';
+
+const initialState: GoogleState = {
+  history: [],
+};
 
 const googleSlice = createSlice({
   name: 'google',
-  initialState: {
-    history: [],
-  },
+  initialState: initialState,
   reducers: {
     saveHistory: (state, action) => {
       state.history = action.payload;

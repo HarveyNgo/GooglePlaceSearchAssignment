@@ -1,5 +1,4 @@
 import axiosInstance from '../../services/api';
-
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
   GetPlaceDetailParams,
@@ -39,11 +38,9 @@ export const getGooglePlaceDetail = createAsyncThunk<
         },
       },
     );
-    console.log('hung response:', response);
 
     return response.data;
   } catch (error: any) {
-    console.log('hung error:', error);
     return rejectWithValue(error.response?.data?.message ?? error);
   }
 });

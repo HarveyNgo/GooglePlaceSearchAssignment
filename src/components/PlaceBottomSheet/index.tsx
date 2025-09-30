@@ -33,10 +33,7 @@ const PlaceBottomSheet: React.FC<Props> = ({
   onPlaceSelected,
 }) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
-
-  // snap points for collapsed and expanded states
   const snapPoints = useMemo(() => ['25%', '30%', '30%'], []);
-
   const [selected, setSelected] = useState<PlaceResult | null>(
     selectedPlace || null,
   );
@@ -45,14 +42,14 @@ const PlaceBottomSheet: React.FC<Props> = ({
     (item: PlaceResult) => {
       setSelected(item);
       onPlaceSelected(item);
-      bottomSheetRef.current?.expand(); // open to show details
+      bottomSheetRef.current?.expand();
     },
     [onPlaceSelected],
   );
 
   const handleCloseDetail = useCallback(() => {
     setSelected(null);
-    bottomSheetRef.current?.snapToIndex(1); // go back to mid height (list)
+    bottomSheetRef.current?.snapToIndex(1);
   }, []);
 
   useEffect(() => {
@@ -72,9 +69,7 @@ const PlaceBottomSheet: React.FC<Props> = ({
   );
 
   return (
-    // <GestureHandlerRootView style={styles.container}>
     <BottomSheet ref={bottomSheetRef} index={0} snapPoints={snapPoints}>
-      {/* List View */}
       {!selected && (
         <BottomSheetView style={styles.bottomSheetHistoryContainer}>
           <Text style={styles.placeHistory}>Place History</Text>
@@ -86,7 +81,6 @@ const PlaceBottomSheet: React.FC<Props> = ({
         </BottomSheetView>
       )}
 
-      {/* Detail View */}
       {selected && (
         <BottomSheetView style={styles.bottomSheetContainer}>
           <TouchableOpacity

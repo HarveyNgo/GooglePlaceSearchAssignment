@@ -95,3 +95,7 @@ export interface SearchPlacesParams {
 export interface GetPlaceDetailParams {
   placeId: string;
 }
+
+export interface GoogleState{
+  history: PlaceResult[];
+}

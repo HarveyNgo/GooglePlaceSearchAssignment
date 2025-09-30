@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { View, StyleSheet } from 'react-native';
 import MapView, { Marker, Region } from 'react-native-maps';
 import { PlaceSearch, PlaceBottomSheet } from '../../components';
@@ -21,26 +21,29 @@ const HomeScreen = () => {
     })();
   }, [historyState]);
 
-  const onPlaceSelected = async (place: PlaceResult) => {
-    setSelectedPlace(place);
+  const onPlaceSelected = useCallback(
+    async (place: PlaceResult) => {
+      setSelectedPlace(place);
 
-    const newHistory = [place, ...history.filter(h => h.id !== place.id)].slice(
-      0,
-      50,
-    );
-    setHistory(newHistory);
-    dispatch(saveHistory(newHistory));
+      const newHistory = [
+        place,
+        ...history.filter(h => h.id !== place.id),
+      ].slice(0, 50);
+      setHistory(newHistory);
+      dispatch(saveHistory(newHistory));
 
-    if (mapRef.current && place.location) {
-      const region: Region = {
-        latitude: place.location.latitude,
-        longitude: place.location.longitude,
-        latitudeDelta: 0.01,
-        longitudeDelta: 0.01,
-      };
-      mapRef.current.animateToRegion(region, 500);
-    }
-  };
+      if (mapRef.current && place.location) {
+        const region: Region = {
+          latitude: place.location.latitude,
+          longitude: place.location.longitude,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
+        };
+        mapRef.current.animateToRegion(region, 500);
+      }
+    },
+    [history, dispatch],
+  );
 
   return (
     <SafeAreaProvider style={styles.container}>
